@@ -80,4 +80,27 @@ class PersistanceViewModel: ObservableObject {
         
         return orderedResults
     }
+    
+    func getHistoryForDate(date: Date) -> [CigaretteLog] {
+        return logs.filter({ $0.date == date })
+    }
+    
+    func getLastCigaretteLogTime() -> Int? {
+        if let lastLogDate = logs.first?.date {
+            let now = Date()
+            let diffComponents = Calendar.current.dateComponents([.minute], from: lastLogDate, to: now)
+            return diffComponents.minute
+        } else {
+            return nil
+        }
+    }
+    
+    func getDailyGoalRemaining() -> Int {
+        let goal = UserDefaults.standard.integer(forKey: "dailyGoal")
+        let tempGoal = 20
+        let dailyConsumed = getDailyCigaretteConsumed()
+        
+        let remaining = tempGoal - dailyConsumed
+        return remaining
+    }
 }

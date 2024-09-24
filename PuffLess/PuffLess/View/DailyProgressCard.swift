@@ -29,7 +29,7 @@ struct DailyProgressCard: View {
                 Text(title)
                     .font(.subheadline)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-                Text("\(amount) \(description)")
+                Text(amount < 0 ? "Reached" : "\(amount) \(description)")
                     .font(.caption)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
             }
