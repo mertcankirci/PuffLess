@@ -19,6 +19,9 @@ struct HomeView: View {
     @State var selectedDate: Date = Date()
     
     @State private var timer: Timer?
+    @State var showAddLogView: Bool = false
+    @State private var addLogQuantity: Int?
+    @State private var errorOccured: Bool = false
     
     private var dailyProgressData: [DailyProgressData] {
         [
@@ -80,7 +83,7 @@ struct HomeView: View {
                         .tint(.pink)
                         .padding(.horizontal)
                         .padding(.bottom, 56)
-                        .onChange(of: selectedDate) { oldValue, newValue in
+                        .onChange(of: selectedDate) { newValue in
                             print(viewModel.getHistoryForDate(date: newValue))
                         }
                     
@@ -92,7 +95,7 @@ struct HomeView: View {
                     Spacer()
                     Button(action: {
                         withAnimation {
-                            addLog()
+                            showAddLogView.toggle()
                         }
                     }) {
                         Image(systemName: "plus")
@@ -107,7 +110,80 @@ struct HomeView: View {
                     .padding(.bottom, 16)
                 }
             }
+            
+            if showAddLogView {
+                LinearGradient(gradient: Gradient(colors: [Color(.systemBackground.withAlphaComponent(0.9))]),
+                                                           startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        withAnimation {
+                            showAddLogView = false
+                        }
+                    }
+                
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            withAnimation {
+                                showAddLogView = false
+                            }
+                        }) {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 24, weight: .bold))
+                                .foregroundColor(.primary)
+                        }
+                        .padding(.trailing, 16)
+                        .padding(.top, 16)
+                    }
+                    
+                    Spacer()
+                    
+                    VStack(spacing: 0) {
+                        TextField("Cigarette amount", value: $addLogQuantity, format: .number)
+                            .font(.system(size: 22, weight: .medium))
+                            .foregroundColor(.primary)
+                            .multilineTextAlignment(.center)
+                            .padding(.bottom, 8)
+                            .keyboardType(.numberPad)
+                            .padding(.horizontal, 32)
+                        
+                        Rectangle()
+                            .frame(height: 1)
+                            .foregroundColor(.gray)
+                            .padding(.horizontal, 32)
+                    }
+                    .padding(.bottom, 30)
+
+                    Button(action: {
+                        addLog()
+                        withAnimation {
+                            showAddLogView = false
+                        }
+                    }) {
+                        Text("Done")
+                            .font(.headline)
+                            .frame(width: 200, height: 50)
+                            .background(Color.pink)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.top, 20)
+                    
+                    Spacer()
+                }
+                .padding()
+                .padding(.bottom, 32)
+            }
+            
         }
+        .alert(isPresented: $errorOccured) {
+                   Alert(
+                    title: Text("Error"),
+                    message: Text("Please enter a valid number"),
+                    dismissButton: Alert.Button.default(Text("OK"))
+                   )
+               }
         .background(.regularMaterial)
         .onAppear {
             fetchDailyConsumed()
@@ -121,12 +197,17 @@ struct HomeView: View {
     }
     
     private func addLog() {
-        viewModel.addLog(quantity: 8)
+        guard let addLogQuantity = addLogQuantity else {
+            errorOccured = true
+            return
+        }
+        viewModel.addLog(quantity: Int16(addLogQuantity))
         fetchDailyConsumed()
         fetchLastTime()
         fetchDailyGoal()
         fetchLastTime()
     }
+    
     
     private func fetchDailyConsumed() {
         cigaretteConsumedToday = viewModel.getDailyCigaretteConsumed()
