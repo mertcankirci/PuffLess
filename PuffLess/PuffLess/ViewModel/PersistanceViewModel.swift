@@ -82,7 +82,15 @@ class PersistanceViewModel: ObservableObject {
     }
     
     func getHistoryForDate(date: Date) -> [CigaretteLog] {
-        return logs.filter({ $0.date == date })
+        let calendar = Calendar.current
+        
+        return logs.filter { log in
+            if let logDate = log.date {
+                return calendar.isDate(logDate, inSameDayAs: date)
+            } else {
+                return false 
+            }
+        }
     }
     
     func getLastCigaretteLogTime() -> Int? {

@@ -22,67 +22,90 @@ struct HomeView: View {
     
     private var dailyProgressData: [DailyProgressData] {
         [
-            DailyProgressData(title: "Today", description: "cigarettes", image: Image("cigarette"), amount: $cigaretteConsumedToday, color: .pink),
-            DailyProgressData(title: "Last time", description: "m ago", image: Image(systemName: "clock"), amount: $lastTime, color: .primary),
-            DailyProgressData(title: "Daily goal", description: "remaining", image: Image(systemName: "target"), amount: $dailyGoal, color: .mint)
+            DailyProgressData(title: "Today", image: Image("cigarette"), amount: $cigaretteConsumedToday, color: .pink, type: .cigarettes),
+            DailyProgressData(title: "Last time", image: Image(systemName: "clock"), amount: $lastTime, color: .pink, type: .time),
+            DailyProgressData(title: "Daily goal", image: Image(systemName: "target"), amount: $dailyGoal, color: .pink, type: .goal)
         ]
     }
     
     var body: some View {
-        ScrollView {
-            VStack {
-                Text("Daily Progress")
-                    .font(.title)
-                    .bold()
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .padding()
-                    .padding(.top)
-                
-                HStack {
-                    ForEach(dailyProgressData, id: \.title) { data in
-                        DailyProgressCard(title: data.title,
-                                          description: data.description,
-                                          image: data.image,
-                                          imageColor: data.color,
-                                          amount: data.amount)
-                        .background(.background)
-                        .cornerRadius(12)
-                        .onTapGesture {
-                            addLog()
+        ZStack {
+            ScrollView {
+                VStack {
+                    Text("Daily Progress")
+                        .font(.title)
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        .padding()
+                        .padding(.top)
+                    
+                    HStack {
+                        ForEach(dailyProgressData, id: \.title) { data in
+                            DailyProgressCard(data: data, amount: data.amount ?? .constant(0))
+                            .background(.background)
+                            .cornerRadius(12)
+                            .onTapGesture {
+                                addLog()
+                            }
                         }
                     }
-                }
-                .frame(height: 100)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.horizontal)
-                
-                Text("Weekly Progress")
-                    .font(.title)
-                    .bold()
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .padding()
-                    .padding(.top)
-                
-                WeeklyProgressCard(weeklyProgress: weeklyProgress)
                     .frame(height: 100)
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .background(.background)
-                    .cornerRadius(12)
                     .padding(.horizontal)
-                
-                Text("History")
-                    .font(.title)
-                    .bold()
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .padding(.horizontal)
-                    .padding(.top)
-                
-                DatePicker("", selection: $selectedDate)
-                    .datePickerStyle(.graphical)
-                    .labelsHidden()
-                    .tint(.pink)
-                    .padding(.horizontal)
-
+                    
+                    Text("Weekly Progress")
+                        .font(.title)
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        .padding()
+                        .padding(.top)
+                    
+                    WeeklyProgressCard(weeklyProgress: weeklyProgress)
+                        .frame(height: 100)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .background(.background)
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                    
+                    Text("History")
+                        .font(.title)
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        .padding(.horizontal)
+                        .padding(.top)
+                    
+                    DatePicker("", selection: $selectedDate)
+                        .datePickerStyle(.graphical)
+                        .labelsHidden()
+                        .tint(.pink)
+                        .padding(.horizontal)
+                        .padding(.bottom, 56)
+                        .onChange(of: selectedDate) { oldValue, newValue in
+                            print(viewModel.getHistoryForDate(date: newValue))
+                        }
+                    
+                }
+            }
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        withAnimation {
+                            addLog()
+                        }
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 24))
+                            .foregroundColor(.white)
+                            .frame(width: 48, height: 48)
+                            .background(Color.pink)
+                            .clipShape(Circle())
+                            .shadow(radius: 10)
+                    }
+                    .padding(.trailing, 16)
+                    .padding(.bottom, 16)
+                }
             }
         }
         .background(.regularMaterial)

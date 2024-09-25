@@ -9,8 +9,14 @@ import SwiftUI
 
 struct DailyProgressData {
     let title: String
-    let description: String
     let image: Image
-    let amount: Binding<Int>
+    let amount: Binding<Int>?
     let color: Color
+    let type: ProgressType
+    
+    enum ProgressType {
+        case cigarettes
+        case time
+        case goal
+    }
 }

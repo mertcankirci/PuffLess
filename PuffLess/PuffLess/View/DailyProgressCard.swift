@@ -9,27 +9,35 @@ import SwiftUI
 
 struct DailyProgressCard: View {
     
-    @State var title: String
-    @State var description: String
-    @State var image: Image
-    @State var imageColor: Color
+    let data: DailyProgressData
     @Binding var amount: Int
+    
+    var displayValue: String {
+        switch data.type {
+        case .cigarettes:
+            return "\(amount) cigarettes"
+        case .time:
+            return TimeFormatter.formatMinutesToTimeString(minutes: amount)
+        case .goal:
+            return amount < 0 ? "Reached" : "\(amount) remaining"
+        }
+    }
     
     var body: some View {
         VStack {
-            image
+            data.image
                 .resizable()
                 .renderingMode(.template)
-                .foregroundStyle(imageColor)
+                .foregroundStyle(data.color)
                 .frame(width: 24, height: 24)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding(.init(top: 8, leading: 8, bottom: 0, trailing: 0))
             
             VStack(spacing: 0) {
-                Text(title)
+                Text(data.title)
                     .font(.subheadline)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-                Text(amount < 0 ? "Reached" : "\(amount) \(description)")
+                Text(displayValue)
                     .font(.caption)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
             }
@@ -40,7 +48,7 @@ struct DailyProgressCard: View {
 }
 
 #Preview {
-    DailyProgressCard(title: "Today", description: "cigarettes", image: Image(systemName: "person.fill"), imageColor: .pink, amount: .constant(3))
+    DailyProgressCard(data: DailyProgressData(title: "asd", image: Image(systemName: "asd"), amount: nil, color: .pink, type: .cigarettes), amount: .constant(3))
         .frame(width: UIScreen.main.bounds.width / 4, height: UIScreen.main.bounds.width / 4)
         .background(.secondary)
         .cornerRadius(12)
