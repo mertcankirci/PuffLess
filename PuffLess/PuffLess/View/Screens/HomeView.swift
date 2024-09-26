@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @EnvironmentObject var viewModel: PersistanceViewModel
+    @EnvironmentObject var router: Router
     
     @State var cigaretteConsumedToday: Int = 0
     @State var lastTime: Int = 0
@@ -22,6 +23,10 @@ struct HomeView: View {
     @State var showAddLogView: Bool = false
     @State private var addLogQuantity: Int?
     @State private var errorOccured: Bool = false
+    
+    @State private var blurOfMainView: Double = 0.0
+    
+    @FocusState private var isInputFocused: Bool
     
     private var dailyProgressData: [DailyProgressData] {
         [
@@ -45,11 +50,8 @@ struct HomeView: View {
                     HStack {
                         ForEach(dailyProgressData, id: \.title) { data in
                             DailyProgressCard(data: data, amount: data.amount ?? .constant(0))
-                            .background(.background)
+                            .background(.regularMaterial)
                             .cornerRadius(12)
-                            .onTapGesture {
-                                addLog()
-                            }
                         }
                     }
                     .frame(height: 100)
@@ -66,7 +68,7 @@ struct HomeView: View {
                     WeeklyProgressCard(weeklyProgress: weeklyProgress)
                         .frame(height: 100)
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .background(.background)
+                        .background(.regularMaterial)
                         .cornerRadius(12)
                         .padding(.horizontal)
                     
@@ -83,12 +85,15 @@ struct HomeView: View {
                         .tint(.pink)
                         .padding(.horizontal)
                         .padding(.bottom, 56)
-                        .onChange(of: selectedDate) { newValue in
-                            print(viewModel.getHistoryForDate(date: newValue))
+                        .onChange(of: selectedDate) { newDate in
+                            let logs = viewModel.getHistoryForDate(date: newDate)
+                            router.navigate(to: .historyDetail(logs: logs, date: newDate))
                         }
                     
                 }
             }
+            .blur(radius: blurOfMainView)
+            
             VStack {
                 Spacer()
                 HStack {
@@ -96,6 +101,7 @@ struct HomeView: View {
                     Button(action: {
                         withAnimation {
                             showAddLogView.toggle()
+                            blurOfMainView = 20
                         }
                     }) {
                         Image(systemName: "plus")
@@ -110,70 +116,79 @@ struct HomeView: View {
                     .padding(.bottom, 16)
                 }
             }
+            .blur(radius: blurOfMainView)
             
             if showAddLogView {
-                LinearGradient(gradient: Gradient(colors: [Color(.systemBackground.withAlphaComponent(0.9))]),
-                                                           startPoint: .top, endPoint: .bottom)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        withAnimation {
-                            showAddLogView = false
+                ZStack {
+                    Color(.systemBackground.withAlphaComponent(0.3))
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            if isInputFocused {
+                                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                             } else {
+                                 withAnimation {
+                                     blurOfMainView = 0
+                                     showAddLogView = false
+                                 }
+                             }
                         }
-                    }
-                
-                VStack {
-                    HStack {
+                        
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                withAnimation {
+                                    blurOfMainView = 0
+                                    showAddLogView = false
+                                }
+                            }) {
+                                Image(systemName: "xmark")
+                                    .font(.system(size: 24, weight: .bold))
+                                    .foregroundColor(.primary)
+                            }
+                            .padding(.trailing, 16)
+                            .padding(.top, 16)
+                        }
+                        
                         Spacer()
+                        
+                        VStack(spacing: 0) {
+                            TextField("Cigarette amount", value: $addLogQuantity, format: .number)
+                                .font(.system(size: 22, weight: .medium))
+                                .focused($isInputFocused)
+                                .foregroundColor(.primary)
+                                .multilineTextAlignment(.center)
+                                .padding(.bottom, 8)
+                                .keyboardType(.numberPad)
+                                .padding(.horizontal, 32)
+                            
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal, 32)
+                        }
+                        .padding(.bottom, 30)
+                        
                         Button(action: {
+                            addLog()
                             withAnimation {
                                 showAddLogView = false
                             }
                         }) {
-                            Image(systemName: "xmark")
-                                .font(.system(size: 24, weight: .bold))
-                                .foregroundColor(.primary)
+                            Text("Done")
+                                .font(.headline)
+                                .frame(width: 200, height: 50)
+                                .background(Color.pink)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                         }
-                        .padding(.trailing, 16)
-                        .padding(.top, 16)
-                    }
-                    
-                    Spacer()
-                    
-                    VStack(spacing: 0) {
-                        TextField("Cigarette amount", value: $addLogQuantity, format: .number)
-                            .font(.system(size: 22, weight: .medium))
-                            .foregroundColor(.primary)
-                            .multilineTextAlignment(.center)
-                            .padding(.bottom, 8)
-                            .keyboardType(.numberPad)
-                            .padding(.horizontal, 32)
+                        .padding(.top, 20)
                         
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundColor(.gray)
-                            .padding(.horizontal, 32)
+                        Spacer()
                     }
-                    .padding(.bottom, 30)
-
-                    Button(action: {
-                        addLog()
-                        withAnimation {
-                            showAddLogView = false
-                        }
-                    }) {
-                        Text("Done")
-                            .font(.headline)
-                            .frame(width: 200, height: 50)
-                            .background(Color.pink)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding(.top, 20)
-                    
-                    Spacer()
+                    .padding()
+                    .padding(.bottom, 32)
                 }
-                .padding()
-                .padding(.bottom, 32)
             }
             
         }
@@ -184,7 +199,7 @@ struct HomeView: View {
                     dismissButton: Alert.Button.default(Text("OK"))
                    )
                }
-        .background(.regularMaterial)
+        .background(Color(UIColor.tertiarySystemFill))
         .onAppear {
             fetchDailyConsumed()
             fetchWeeklyProgress()
@@ -197,13 +212,12 @@ struct HomeView: View {
     }
     
     private func addLog() {
-        guard let addLogQuantity = addLogQuantity else {
+        guard let addLogQuantity = addLogQuantity, addLogQuantity > 0 else {
             errorOccured = true
             return
         }
         viewModel.addLog(quantity: Int16(addLogQuantity))
         fetchDailyConsumed()
-        fetchLastTime()
         fetchDailyGoal()
         fetchLastTime()
     }
@@ -241,4 +255,5 @@ struct HomeView: View {
 #Preview {
     HomeView()
         .environmentObject(PersistanceViewModel())
+        .environmentObject(Router())
 }

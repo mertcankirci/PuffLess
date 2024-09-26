@@ -11,17 +11,20 @@ import CoreData
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: PersistanceViewModel
+    @EnvironmentObject var router: Router
     
     var body: some View {
          TabView {
              HomeView()
                  .environmentObject(viewModel)
+                 .environmentObject(router)
                  .tabItem {
                      Label("Home", systemImage: "house")
                  }
                  .tag(0)
              
              StatsView()
+                 .environmentObject(viewModel)
                  .tabItem {
                      Label("Stats", systemImage: "chart.bar")
                  }
@@ -35,4 +38,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environmentObject(PersistanceViewModel())
+        .environmentObject(Router())
 }

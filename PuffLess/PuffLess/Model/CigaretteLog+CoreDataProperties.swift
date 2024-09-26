@@ -25,3 +25,4 @@ extension CigaretteLog {
 extension CigaretteLog : Identifiable {
 
 }
+

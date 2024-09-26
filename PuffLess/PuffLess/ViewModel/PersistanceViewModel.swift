@@ -88,7 +88,7 @@ class PersistanceViewModel: ObservableObject {
             if let logDate = log.date {
                 return calendar.isDate(logDate, inSameDayAs: date)
             } else {
-                return false 
+                return false
             }
         }
     }
@@ -105,10 +105,13 @@ class PersistanceViewModel: ObservableObject {
     
     func getDailyGoalRemaining() -> Int {
         let goal = UserDefaults.standard.integer(forKey: "dailyGoal")
-        let tempGoal = 20
         let dailyConsumed = getDailyCigaretteConsumed()
         
-        let remaining = tempGoal - dailyConsumed
+        let remaining = goal - dailyConsumed
         return remaining
+    }
+    
+    func saveDailyGoals(dailyGoal: Int) {
+        UserDefaults.standard.set(dailyGoal, forKey: "dailyGoal")
     }
 }
