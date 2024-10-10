@@ -44,6 +44,7 @@ struct OnboardingView: View {
             .blur(radius: 20)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
+            
             Circle()
                 .fill(.pink)
                 .frame(width: 300, height: 300)
@@ -90,7 +91,9 @@ struct OnboardingView: View {
                 
                 Button(action: {
                     viewModel.saveDailyGoals(dailyGoal: dailyGoal)
-                    isOnboardingCompleted = true
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        isOnboardingCompleted = true
+                    }
                 }) {
                     Text("Get Started")
                         .font(.system(size: 18, weight: .bold))

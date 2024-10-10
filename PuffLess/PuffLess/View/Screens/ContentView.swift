@@ -14,23 +14,10 @@ struct ContentView: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-         TabView {
              HomeView()
                  .environmentObject(viewModel)
                  .environmentObject(router)
-                 .tabItem {
-                     Label("Home", systemImage: "house")
-                 }
-                 .tag(0)
-             
-             StatsView()
-                 .environmentObject(viewModel)
-                 .tabItem {
-                     Label("Stats", systemImage: "chart.bar")
-                 }
-                 .tag(1)
-         }
-         .accentColor(.pink)
+                 .accentColor(.pink)
      }
 }
 

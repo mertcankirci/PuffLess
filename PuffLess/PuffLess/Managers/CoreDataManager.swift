@@ -14,11 +14,17 @@ class CoreDataManager {
     let container = NSPersistentContainer(name: "PuffLess")
     
     private init() {
+        
+        let url = URL.storeUrl(for: "group.com.mertcankirci.PuffLess", databaseName: "PuffLess")
+        let storeDescription = NSPersistentStoreDescription(url: url)
+        container.persistentStoreDescriptions = [storeDescription]
+        
         container.loadPersistentStores { descriptionn, error in
             if let error = error {
                 print("Error loading persistent store: \(error)")
             }
         }
+        container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     var context: NSManagedObjectContext {
@@ -78,4 +84,14 @@ class CoreDataManager {
     
     
     
+}
+
+
+public extension URL {
+    static func storeUrl(for appGroup: String, databaseName: String) -> URL {
+        guard let fileContianer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+            fatalError("Unable to create URL")
+        }
+        return fileContianer.appendingPathComponent("\(databaseName).sqlite")
+    }
 }

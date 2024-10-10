@@ -15,7 +15,6 @@ struct PuffLessApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if isOnboardingCompleted {
                 NavigationStack(path: $router.navPath) {
                     ContentView()
                         .navigationDestination(for: Router.Destination.self, destination: { destination in
@@ -28,10 +27,6 @@ struct PuffLessApp: App {
                         .environmentObject(router)
                 }
                 .tint(.pink)
-            } else {
-                OnboardingView(isOnboardingCompleted: $isOnboardingCompleted)
-                    .environmentObject(viewModel)
-            }
         }
     }
 }

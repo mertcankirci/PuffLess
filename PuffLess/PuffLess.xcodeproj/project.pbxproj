@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		5437E30B2CA1DE1100EB5D71 /* CigaretteLog+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5437E3092CA1DE1100EB5D71 /* CigaretteLog+CoreDataClass.swift */; };
 		5437E30C2CA1DE1100EB5D71 /* CigaretteLog+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5437E30A2CA1DE1100EB5D71 /* CigaretteLog+CoreDataProperties.swift */; };
+		54F3EBC02CB71E5000A8E840 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F3EB652CB71CD000A8E840 /* WidgetKit.framework */; };
+		54F3EBC12CB71E5000A8E840 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54F3EB672CB71CD100A8E840 /* SwiftUI.framework */; };
+		54F3EBCE2CB71E5200A8E840 /* PufLess-Widget+ExtExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 54F3EBBF2CB71E5000A8E840 /* PufLess-Widget+ExtExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,7 +29,28 @@
 			remoteGlobalIDString = 54E6746F2CA170560086A764;
 			remoteInfo = PuffLess;
 		};
+		54F3EBCC2CB71E5200A8E840 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 54E674682CA170560086A764 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 54F3EBBE2CB71E5000A8E840;
+			remoteInfo = "PufLess-Widget+ExtExtension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		54F3EB7A2CB71CD200A8E840 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				54F3EBCE2CB71E5200A8E840 /* PufLess-Widget+ExtExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5437E3092CA1DE1100EB5D71 /* CigaretteLog+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CigaretteLog+CoreDataClass.swift"; path = "PuffLess/Model/CigaretteLog+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -34,11 +58,48 @@
 		54E674702CA170560086A764 /* PuffLess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PuffLess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54E674852CA170570086A764 /* PuffLessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuffLessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		54E6748F2CA170570086A764 /* PuffLessUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuffLessUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		54F3EB652CB71CD000A8E840 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		54F3EB672CB71CD100A8E840 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		54F3EBBF2CB71E5000A8E840 /* PufLess-Widget+ExtExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "PufLess-Widget+ExtExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		54F3EBE62CB74C6B00A8E840 /* PufLess-Widget+ExtExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "PufLess-Widget+ExtExtension.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		54F3EBCF2CB71E5200A8E840 /* Exceptions for "PufLess-Widget+Ext" folder in "PufLess-Widget+ExtExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 54F3EBBE2CB71E5000A8E840 /* PufLess-Widget+ExtExtension */;
+		};
+		54F3EBD72CB71EE100A8E840 /* Exceptions for "PufLess-Widget+Ext" folder in "PuffLess" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Model/CigaretteEntry.swift,
+				View/MainView.swift,
+				ViewModel/WidgetPersistanceViewModel.swift,
+			);
+			target = 54E6746F2CA170560086A764 /* PuffLess */;
+		};
+		54F3EBE02CB74A4A00A8E840 /* Exceptions for "PuffLess" folder in "PufLess-Widget+ExtExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Managers/CoreDataManager.swift,
+				"Model/CigaretteLog+CoreDataClass.swift",
+				"Model/CigaretteLog+CoreDataProperties.swift",
+				PuffLess.xcdatamodeld,
+				ViewModel/PersistanceViewModel.swift,
+			);
+			target = 54F3EBBE2CB71E5000A8E840 /* PufLess-Widget+ExtExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		54E674722CA170560086A764 /* PuffLess */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				54F3EBE02CB74A4A00A8E840 /* Exceptions for "PuffLess" folder in "PufLess-Widget+ExtExtension" target */,
+			);
 			path = PuffLess;
 			sourceTree = "<group>";
 		};
@@ -50,6 +111,15 @@
 		54E674922CA170570086A764 /* PuffLessUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PuffLessUITests;
+			sourceTree = "<group>";
+		};
+		54F3EBC22CB71E5000A8E840 /* PufLess-Widget+Ext */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				54F3EBD72CB71EE100A8E840 /* Exceptions for "PufLess-Widget+Ext" folder in "PuffLess" target */,
+				54F3EBCF2CB71E5200A8E840 /* Exceptions for "PufLess-Widget+Ext" folder in "PufLess-Widget+ExtExtension" target */,
+			);
+			path = "PufLess-Widget+Ext";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -76,17 +146,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		54F3EBBC2CB71E5000A8E840 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				54F3EBC12CB71E5000A8E840 /* SwiftUI.framework in Frameworks */,
+				54F3EBC02CB71E5000A8E840 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		54E674672CA170560086A764 = {
 			isa = PBXGroup;
 			children = (
+				54F3EBE62CB74C6B00A8E840 /* PufLess-Widget+ExtExtension.entitlements */,
 				5437E3092CA1DE1100EB5D71 /* CigaretteLog+CoreDataClass.swift */,
 				5437E30A2CA1DE1100EB5D71 /* CigaretteLog+CoreDataProperties.swift */,
 				54E674722CA170560086A764 /* PuffLess */,
 				54E674882CA170570086A764 /* PuffLessTests */,
 				54E674922CA170570086A764 /* PuffLessUITests */,
+				54F3EBC22CB71E5000A8E840 /* PufLess-Widget+Ext */,
+				54F3EB642CB71CD000A8E840 /* Frameworks */,
 				54E674712CA170560086A764 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -97,8 +179,18 @@
 				54E674702CA170560086A764 /* PuffLess.app */,
 				54E674852CA170570086A764 /* PuffLessTests.xctest */,
 				54E6748F2CA170570086A764 /* PuffLessUITests.xctest */,
+				54F3EBBF2CB71E5000A8E840 /* PufLess-Widget+ExtExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		54F3EB642CB71CD000A8E840 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				54F3EB652CB71CD000A8E840 /* WidgetKit.framework */,
+				54F3EB672CB71CD100A8E840 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,10 +203,12 @@
 				54E6746C2CA170560086A764 /* Sources */,
 				54E6746D2CA170560086A764 /* Frameworks */,
 				54E6746E2CA170560086A764 /* Resources */,
+				54F3EB7A2CB71CD200A8E840 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				54F3EBCD2CB71E5200A8E840 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				54E674722CA170560086A764 /* PuffLess */,
@@ -172,6 +266,28 @@
 			productReference = 54E6748F2CA170570086A764 /* PuffLessUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		54F3EBBE2CB71E5000A8E840 /* PufLess-Widget+ExtExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 54F3EBD02CB71E5200A8E840 /* Build configuration list for PBXNativeTarget "PufLess-Widget+ExtExtension" */;
+			buildPhases = (
+				54F3EBBB2CB71E5000A8E840 /* Sources */,
+				54F3EBBC2CB71E5000A8E840 /* Frameworks */,
+				54F3EBBD2CB71E5000A8E840 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				54F3EBC22CB71E5000A8E840 /* PufLess-Widget+Ext */,
+			);
+			name = "PufLess-Widget+ExtExtension";
+			packageProductDependencies = (
+			);
+			productName = "PufLess-Widget+ExtExtension";
+			productReference = 54F3EBBF2CB71E5000A8E840 /* PufLess-Widget+ExtExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -193,6 +309,9 @@
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = 54E6746F2CA170560086A764;
 					};
+					54F3EBBE2CB71E5000A8E840 = {
+						CreatedOnToolsVersion = 16.0;
+					};
 				};
 			};
 			buildConfigurationList = 54E6746B2CA170560086A764 /* Build configuration list for PBXProject "PuffLess" */;
@@ -212,6 +331,7 @@
 				54E6746F2CA170560086A764 /* PuffLess */,
 				54E674842CA170570086A764 /* PuffLessTests */,
 				54E6748E2CA170570086A764 /* PuffLessUITests */,
+				54F3EBBE2CB71E5000A8E840 /* PufLess-Widget+ExtExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -232,6 +352,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		54E6748D2CA170570086A764 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		54F3EBBD2CB71E5000A8E840 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -264,6 +391,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		54F3EBBB2CB71E5000A8E840 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -276,6 +410,11 @@
 			isa = PBXTargetDependency;
 			target = 54E6746F2CA170560086A764 /* PuffLess */;
 			targetProxy = 54E674902CA170570086A764 /* PBXContainerItemProxy */;
+		};
+		54F3EBCD2CB71E5200A8E840 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 54F3EBBE2CB71E5000A8E840 /* PufLess-Widget+ExtExtension */;
+			targetProxy = 54F3EBCC2CB71E5200A8E840 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -404,6 +543,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PuffLess/PuffLess.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PuffLess/Preview Content\"";
@@ -438,6 +578,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PuffLess/PuffLess.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PuffLess/Preview Content\"";
@@ -539,6 +680,62 @@
 			};
 			name = Release;
 		};
+		54F3EBD12CB71E5200A8E840 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "PufLess-Widget+ExtExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NJ3YBT6N93;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PufLess-Widget+Ext/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PufLess-Widget+Ext";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mertcankirci.PuffLess.PufLess-Widget-Ext";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		54F3EBD22CB71E5200A8E840 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "PufLess-Widget+ExtExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NJ3YBT6N93;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PufLess-Widget+Ext/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PufLess-Widget+Ext";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mertcankirci.PuffLess.PufLess-Widget-Ext";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -574,6 +771,15 @@
 			buildConfigurations = (
 				54E674A02CA170570086A764 /* Debug */,
 				54E674A12CA170570086A764 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		54F3EBD02CB71E5200A8E840 /* Build configuration list for PBXNativeTarget "PufLess-Widget+ExtExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54F3EBD12CB71E5200A8E840 /* Debug */,
+				54F3EBD22CB71E5200A8E840 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

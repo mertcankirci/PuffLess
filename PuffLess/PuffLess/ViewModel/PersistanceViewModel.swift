@@ -81,6 +81,52 @@ class PersistanceViewModel: ObservableObject {
         return orderedResults
     }
     
+    func getMonthlyCigaretteConsumedByWeek() -> [(String, Int)] {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+
+        guard let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: today)),
+              let endOfMonth = calendar.date(byAdding: .month, value: 1, to: startOfMonth),
+              let numberOfWeeks = calendar.range(of: .weekOfMonth, in: .month, for: startOfMonth)?.count else {
+            return []
+        }
+
+        var weeklyConsumption = Array(repeating: 0, count: numberOfWeeks)
+
+        let monthlyLogs = logs.filter { log in
+            if let logDate = log.date {
+                return logDate >= startOfMonth && logDate < endOfMonth
+            }
+            return false
+        }
+
+        for log in monthlyLogs {
+            if let logDate = log.date {
+                let weekOfMonth = calendar.component(.weekOfMonth, from: logDate) - 1
+                if weekOfMonth >= 0 && weekOfMonth < numberOfWeeks {
+                    weeklyConsumption[weekOfMonth] += Int(log.quantitiy)
+                }
+            }
+        }
+
+        var orderedResults: [(String, Int)] = []
+        for week in 1...numberOfWeeks {
+            // Get the start and end dates of the week
+            let weekStartDate = calendar.date(byAdding: .weekOfMonth, value: week - 1, to: startOfMonth)!
+            let weekEndDate = calendar.date(byAdding: .day, value: 6, to: weekStartDate)!
+
+            let dayFormatter = DateFormatter()
+            dayFormatter.dateFormat = "d" // Day of the month
+
+            let weekRangeString = "\(dayFormatter.string(from: weekStartDate))-\(dayFormatter.string(from: weekEndDate))"
+            
+            orderedResults.append((weekRangeString, weeklyConsumption[week - 1]))
+        }
+
+        return orderedResults
+    }
+
+    
     func getHistoryForDate(date: Date) -> [CigaretteLog] {
         let calendar = Calendar.current
         

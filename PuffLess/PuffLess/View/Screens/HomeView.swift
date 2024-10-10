@@ -28,6 +28,8 @@ struct HomeView: View {
     
     @FocusState private var isInputFocused: Bool
     
+    @AppStorage("isOnboardingCompleted") var isOnboardingCompleted: Bool = false
+    
     private var dailyProgressData: [DailyProgressData] {
         [
             DailyProgressData(title: "Today", image: Image("cigarette"), amount: $cigaretteConsumedToday, color: .pink, type: .cigarettes),
@@ -173,6 +175,7 @@ struct HomeView: View {
                             addLog()
                             withAnimation {
                                 showAddLogView = false
+                                blurOfMainView = 0
                             }
                         }) {
                             Text("Done")
@@ -191,6 +194,14 @@ struct HomeView: View {
                 }
             }
             
+            if !isOnboardingCompleted {
+                Color.white
+                    .edgesIgnoringSafeArea(.all)
+                OnboardingView(isOnboardingCompleted: $isOnboardingCompleted)
+                    .environmentObject(viewModel)
+                    .transition(.opacity)
+            }
+            
         }
         .alert(isPresented: $errorOccured) {
                    Alert(
@@ -205,6 +216,7 @@ struct HomeView: View {
             fetchWeeklyProgress()
             fetchDailyGoal()
             startTimer()
+            
         }
         .onDisappear {
             stopTimer()
