@@ -5,7 +5,7 @@
 //  Created by Mertcan Kırcı on 23.09.2024.
 //
 
-import Foundation
+import WidgetKit
 import CoreData
 
 class CoreDataManager {
@@ -14,18 +14,21 @@ class CoreDataManager {
     let container = NSPersistentContainer(name: "PuffLess")
     
     private init() {
-        
         let url = URL.storeUrl(for: "group.com.mertcankirci.PuffLess", databaseName: "PuffLess")
         let storeDescription = NSPersistentStoreDescription(url: url)
+        storeDescription.shouldMigrateStoreAutomatically = true
+        storeDescription.shouldInferMappingModelAutomatically = true
+        
         container.persistentStoreDescriptions = [storeDescription]
         
-        container.loadPersistentStores { descriptionn, error in
+        container.loadPersistentStores { description, error in
             if let error = error {
                 print("Error loading persistent store: \(error)")
             }
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
+
     
     var context: NSManagedObjectContext {
         return container.viewContext
@@ -35,6 +38,7 @@ class CoreDataManager {
         if context.hasChanges {
             do {
                 try context.save()
+                WidgetCenter.shared.reloadAllTimelines()
             } catch {
 #if DEBUG
                 print("Error saving context: \(error)")
@@ -82,6 +86,12 @@ class CoreDataManager {
         }
     }
     
+    //Widget icin 
+    
+    func returnDailyGoal() -> Int {
+        guard let defaults = UserDefaults(suiteName: "group.com.mertcankirci.PuffLess") else { return 0}
+        return defaults.integer(forKey: "dailyGoal")
+    }
     
     
 }

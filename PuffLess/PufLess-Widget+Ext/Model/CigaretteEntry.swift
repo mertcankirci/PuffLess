@@ -11,6 +11,6 @@ struct CigaretteEntry: TimelineEntry {
     var date = Date()
     var quantity: Int
     var id = UUID()
-    
-    
+    var widgetFamily: WidgetFamily
+    var dailyGoalRemaining: Int 
 }

@@ -15,10 +15,13 @@ struct PuffLessWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             PuffLessWidgetView(entry: entry)
+                .containerBackground(for: .widget) {
+                    Color.black
+                }
         }
         .configurationDisplayName("PuffLess Tracker")
         .description("Track your daily cigarette consumption directly from your home screen.")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall])
     }
 }
 

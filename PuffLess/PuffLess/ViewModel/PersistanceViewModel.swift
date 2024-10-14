@@ -5,7 +5,7 @@
 //  Created by Mertcan Kırcı on 23.09.2024.
 //
 
-import Foundation
+import WidgetKit
 import CoreData
 
 class PersistanceViewModel: ObservableObject {
@@ -111,12 +111,11 @@ class PersistanceViewModel: ObservableObject {
 
         var orderedResults: [(String, Int)] = []
         for week in 1...numberOfWeeks {
-            // Get the start and end dates of the week
             let weekStartDate = calendar.date(byAdding: .weekOfMonth, value: week - 1, to: startOfMonth)!
             let weekEndDate = calendar.date(byAdding: .day, value: 6, to: weekStartDate)!
 
             let dayFormatter = DateFormatter()
-            dayFormatter.dateFormat = "d" // Day of the month
+            dayFormatter.dateFormat = "d" 
 
             let weekRangeString = "\(dayFormatter.string(from: weekStartDate))-\(dayFormatter.string(from: weekEndDate))"
             
@@ -150,7 +149,8 @@ class PersistanceViewModel: ObservableObject {
     }
     
     func getDailyGoalRemaining() -> Int {
-        let goal = UserDefaults.standard.integer(forKey: "dailyGoal")
+        guard let defaults = UserDefaults(suiteName: "group.com.mertcankirci.PuffLess") else {return 0}
+        let goal = defaults.integer(forKey: "dailyGoal")
         let dailyConsumed = getDailyCigaretteConsumed()
         
         let remaining = goal - dailyConsumed
@@ -158,6 +158,8 @@ class PersistanceViewModel: ObservableObject {
     }
     
     func saveDailyGoals(dailyGoal: Int) {
-        UserDefaults.standard.set(dailyGoal, forKey: "dailyGoal")
+        guard let defaults = UserDefaults(suiteName: "group.com.mertcankirci.PuffLess") else { return }
+        defaults.set(dailyGoal, forKey: "dailyGoal")
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }
