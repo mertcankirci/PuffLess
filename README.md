@@ -6,10 +6,7 @@
 
 - [Features](#features)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
+- [Technology](#technology)
 
 ## Features
 
